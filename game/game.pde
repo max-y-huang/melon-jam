@@ -20,14 +20,30 @@ void draw() {
   hint(DISABLE_DEPTH_TEST);
   noLights();
 
-  noStroke();
-  fill(128, 128, 128);
-
-  float size = min(height / 32.0, 32);
-
-  ellipse(width / 2, height - 2 * size, size, size);
+  drawSelectedRule();
 
   hint(ENABLE_DEPTH_TEST);
+}
+
+void drawSelectedRule() {
+  float size = min(height / 32.0, 32);
+  noStroke();
+
+  pushMatrix();
+
+  translate(width / 2 - size * (stage.rules.size() - 1), height - 2 * size);
+
+  for (int i = 0; i < stage.rules.size(); i++) {
+    if (i == stage.currentRuleIndex) {
+      fill(0, 255, 255);
+    }
+    else {
+      fill(128, 128, 128);
+    }
+    ellipse(0 + size * 2 * i, 0, size, size);
+  }
+
+  popMatrix();
 }
 
 

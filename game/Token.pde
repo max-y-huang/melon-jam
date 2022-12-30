@@ -13,11 +13,23 @@ class Token {
     x = _x;
     z = _z;
     switch (id) {
-      case "fire":
+      case "fireplace":
         accentColour = color(255, 128, 0);
         break;
       case "sofa":
         accentColour = color(181, 148, 47);
+        break;
+      case "teddyBear":
+        accentColour = color(163, 114, 80);
+        break;
+      case "bed":
+        accentColour = color(0, 255, 0);
+        break;
+      case "hotChocolate":
+        accentColour = color(245, 72, 66);
+        break;
+      case "chocolateBar":
+        accentColour = color(255, 0, 255);
         break;
     }
   }

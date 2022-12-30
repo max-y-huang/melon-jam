@@ -34,7 +34,11 @@ class Stage {
 
     tokens = new ArrayList<Token>();
     tokens.add(new Token("sofa", 4, 2));
-    tokens.add(new Token("fire", 2, 1));
+    tokens.add(new Token("fireplace", 2, 1));
+    tokens.add(new Token("teddyBear", 3, 3));
+    tokens.add(new Token("bed", 5, 3));
+    tokens.add(new Token("hotChocolate", 6, 6));
+    tokens.add(new Token("chocolateBar", 7, 5));
   }
 
   FlipRule currentRule() {
