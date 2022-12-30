@@ -30,6 +30,7 @@ class Stage {
     rules = new ArrayList<FlipRule>();
     rules.add(new FlipRule(X_AXIS, 2.5, 2, 4, 3));
     rules.add(new FlipRule(Z_AXIS, 2.5, 2, 4, 2));
+    rules.add(new FlipRule(X_AXIS, 4.5, 4, 6, 3));
 
     tokens = new ArrayList<Token>();
     tokens.add(new Token("sofa", 4, 2));

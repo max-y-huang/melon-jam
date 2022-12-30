@@ -38,20 +38,21 @@ class FlipRule {
       return;
     }
     if (axis == Z_AXIS) {
-      translate(0, 0, (-z + position) * CELL_SIZE);
+      translate(0, 0, -z + position);
       rotateX(-angle);
-      translate(0, 0, (z - position) * CELL_SIZE);
+      translate(0, 0, z - position);
     }
     else {
-      translate((-x + position) * CELL_SIZE, 0, 0);
+      translate(-x + position, 0, 0);
       rotateZ(angle);
-      translate((x - position) * CELL_SIZE, 0, 0);
+      translate(x - position, 0, 0);
     }
   }
 
   void drawOutline() {
 
     float y = -0.25;
+    float dashSize = 1.0 / 6;
 
     noFill();
     stroke(0, 255, 255);
@@ -65,17 +66,17 @@ class FlipRule {
       z = position;
       w = end2 - end1 + 1;
       d = range * 2;
-      line((end1 - 0.5) * CELL_SIZE, y * CELL_SIZE, position * CELL_SIZE, (end2 + 0.5) * CELL_SIZE, y * CELL_SIZE, position * CELL_SIZE);
+      dashline(end1 - 0.5 + dashSize / 2.0, y, position, end2 + 0.5, y, position, dashSize, dashSize);
     }
     else {
       x = position;
       z = (end1 + end2) / 2.0;
       w = range * 2;
       d = end2 - end1 + 1;
-      line(position * CELL_SIZE, y * CELL_SIZE, (end1 - 0.5) * CELL_SIZE, position * CELL_SIZE, y * CELL_SIZE, (end2 + 0.5) * CELL_SIZE);
+      dashline(position, y, end1 - 0.5 + dashSize / 2.0, position, y, end2 + 0.5, dashSize, dashSize);
     }
-    translate(x * CELL_SIZE, y * CELL_SIZE, z * CELL_SIZE);
-    box(w * CELL_SIZE, 0, d * CELL_SIZE);
+    translate(x, y, z);
+    box(w, 0, d);
     
     popMatrix();
   }

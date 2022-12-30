@@ -25,17 +25,17 @@ class Token {
   void draw() {
     updateOpacity();
 
-    float w = 0.85;
+    float w = 0.8;
     float h = img.height * w / img.width;
     float buffer = 0.125;
 
     pushMatrix();
-    translate((x - buffer) * CELL_SIZE, 0, (z - buffer) * CELL_SIZE);
+    translate(x - buffer, 0, z - buffer);
     rotateY(-3 * PI / 4);
-    translate(-w / 2 * CELL_SIZE, (-h - 0.125) * CELL_SIZE, 0);
+    translate(-w / 2, -h - 0.125, 0);
 
     tint(255, 255 * softenAnimation(opacity));
-    image(img, 0, 0, w * CELL_SIZE, h * CELL_SIZE);
+    image(img, 0, 0, w, h);
     tint(255);
 
     popMatrix();
