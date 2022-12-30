@@ -1,14 +1,11 @@
 
-int X_AXIS = 0;
-int Z_AXIS = 1;
-
-
 class FlipRule {
 
-  int axis, end1, end2;
+  String axis;
+  int end1, end2;
   float position, range;
   
-  FlipRule(int _axis, float _position, int _end1, int _end2, float _range) {
+  FlipRule(String _axis, float _position, int _end1, int _end2, float _range) {
     axis = _axis;
     position = _position;
     end1 = min(_end1, _end2);
@@ -17,7 +14,7 @@ class FlipRule {
   }
 
   boolean isInRange(int x, int z) {
-    if (axis == Z_AXIS) {
+    if (axis.equals("Z_AXIS")) {
       return abs(z - position) < range && x >= end1 && x <= end2;
     }
     return abs(x - position) < range && z >= end1 && z <= end2;
@@ -27,7 +24,7 @@ class FlipRule {
     if (!isInRange(x, z)) {
       return new PVector(x, 0, z);
     }
-    if (axis == Z_AXIS) {
+    if (axis.equals("Z_AXIS")) {
       return new PVector(x, 0, z + 2 * (position - z));
     }
     return new PVector(x + 2 * (position - x), 0, z);
@@ -37,7 +34,7 @@ class FlipRule {
     if (!isInRange(x, z)) {
       return;
     }
-    if (axis == Z_AXIS) {
+    if (axis.equals("Z_AXIS")) {
       translate(0, 0, -z + position);
       rotateX(-angle);
       translate(0, 0, z - position);
@@ -61,7 +58,7 @@ class FlipRule {
     pushMatrix();
 
     float x, z, w, d;
-    if (axis == Z_AXIS) {
+    if (axis.equals("Z_AXIS")) {
       x = (end1 + end2) / 2.0;
       z = position;
       w = end2 - end1 + 1;

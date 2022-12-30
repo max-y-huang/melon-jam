@@ -1,4 +1,5 @@
 import java.util.*;
+// import processing.sound.*;
 
 
 Stage stage;
@@ -9,7 +10,7 @@ void setup() {
   surface.setTitle("Flipping Houses");
   smooth(8);
   frameRate(60);
-  stage = new Stage(5);
+  stage = new Stage(0);
 }
 
 

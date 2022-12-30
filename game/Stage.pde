@@ -11,6 +11,7 @@ class TokenRenderOrderComparator implements Comparator<Token> {
 
 class Stage {
 
+  int level;
   int size;
 
   int animStep = 0;
@@ -24,10 +25,41 @@ class Stage {
   ArrayList<FlipRule> rules;
   ArrayList<Token> tokens;
 
-  Stage(int _size) {
-    size = _size;
+  Stage(int _level) {
+    loadLevel(level);
+  }
+
+  boolean loadLevel(int _level) {
+
+    JSONArray allLevelsJson = loadJSONArray("data/levels.json");
+    if (_level >= allLevelsJson.size()) {
+      return false;
+    }
+    JSONObject levelJson = allLevelsJson.getJSONObject(_level);
+    JSONArray tokensJson = levelJson.getJSONArray("tokens");
+    JSONArray rulesJson = levelJson.getJSONArray("rules");
+
+    level = _level;
+    size = levelJson.getInt("boardSize");
+
+    rules = new ArrayList<FlipRule>();
+    for (int i = 0; i < rulesJson.size(); i++) {
+      JSONObject rule = rulesJson.getJSONObject(i);
+      rules.add(new FlipRule(rule.getString("axis"), rule.getFloat("position"), rule.getInt("end1"), rule.getInt("end2"), rule.getFloat("range")));
+    }
+
+    tokens = new ArrayList<Token>();
+    for (int i = 0; i < tokensJson.size(); i++) {
+      JSONObject token = tokensJson.getJSONObject(i);
+      tokens.add(new Token(token.getString("id"), token.getInt("tag"), token.getInt("x"), token.getInt("z")));
+    }
+
+    currentRuleIndex = 0;
+
+    // create camera
     camera = new Camera(size);
 
+    // load cells
     cells = new ArrayList<ArrayList<Cell>>();
     for (int x = 0; x < size; x++) {
       ArrayList<Cell> row = new ArrayList<Cell>();
@@ -37,22 +69,31 @@ class Stage {
       cells.add(row);
     }
 
-    rules = new ArrayList<FlipRule>();
-    rules.add(new FlipRule(X_AXIS, 1, 0, 0, 1.5));
-    rules.add(new FlipRule(X_AXIS, 3, 0, 0, 1.5));
-    rules.add(new FlipRule(Z_AXIS, 1.5, 2, 4, 2));
-    rules.add(new FlipRule(X_AXIS, 3.5, 3, 3, 1));
-    rules.add(new FlipRule(X_AXIS, 1.5, 3, 3, 1));
-    rules.add(new FlipRule(X_AXIS, 1.5, 4, 4, 2));
-    rules.add(new FlipRule(Z_AXIS, 2, 0, 0, 2.5));
+    return true;
+  }
 
-    tokens = new ArrayList<Token>();
-    tokens.add(new Token("sofa", 0, 0));
-    tokens.add(new Token("fireplace", 3, 4));
-    tokens.add(new Token("teddyBear", 0, 4));
-    tokens.add(new Token("bed", 2, 0));
-    // tokens.add(new Token("hotChocolate", 6, 6));
-    // tokens.add(new Token("chocolateBar", 7, 5));
+  boolean isWinningPosition() {
+    for (Token a : tokens) {
+      boolean foundAdjacent = false;
+      for (Token b : tokens) {
+        if (a.tag == b.tag && abs(a.x - b.x) + abs(a.z - b.z) == 1) {
+          foundAdjacent = true;
+          break;
+        }
+      }
+      if (!foundAdjacent) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  void checkWin() {
+    if (isWinningPosition()) {
+      if (!loadLevel(level + 1)) {
+        exit();
+      }
+    }
   }
 
   FlipRule currentRule() {
@@ -134,6 +175,7 @@ class Stage {
         }
         break;
       default:
+        checkWin();
         animStep = 0;
     }
   }
