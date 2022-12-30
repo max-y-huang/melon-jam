@@ -30,7 +30,7 @@
             "quoting": "strong"
           },
           {
-            "value": "--output=${workspaceRoot}\\out",
+            "value": "--output=${workspaceRoot}/game/out",
             "quoting": "strong"
           },
           "--run"
