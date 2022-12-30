@@ -1,3 +1,5 @@
+int CELL_SIZE = 20;
+
 
 Stage stage;
 
@@ -10,19 +12,40 @@ void setup() {
   stage = new Stage(8);
 }
 
+int temp = 0;
+
 
 void draw() {
   background(32, 32, 32);
   stage.draw();
+
+  camera();
+  hint(DISABLE_DEPTH_TEST);
+  noLights();
+
+  fill(255, 255, 255);
+
+  temp += 1;
+
+  ellipse(width / 2, height / 2 + temp, 10, 10);
+
+  hint(ENABLE_DEPTH_TEST);
 }
 
 
 void keyPressed() {
-  if (key == 'z') {
-    stage.applyRule(0);
+  // stage.selectPrevRule();
+  // stage.selectNextRule();
+  if (key == CODED) {
+    if (keyCode == LEFT) {
+      stage.selectPrevRule();
+    }
+    else if (keyCode == RIGHT) {
+      stage.selectNextRule();
+    }
   }
-  if (key == 'x') {
-    stage.applyRule(1);
+  else if (key == ' ') {
+    stage.applyRule();
   }
 }
 

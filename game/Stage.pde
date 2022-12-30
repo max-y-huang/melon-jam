@@ -6,7 +6,8 @@ class Stage {
   int animStep = 0;
   int animStepCount = 0;
   float animPercent = 0;
-  FlipRule currentRule;
+
+  int currentRuleIndex = 0;
 
   Camera camera;
   ArrayList<ArrayList<Cell>> cells;
@@ -28,11 +29,15 @@ class Stage {
 
     rules = new ArrayList<FlipRule>();
     rules.add(new FlipRule(X_AXIS, 2.5, 2, 4, 3));
-    rules.add(new FlipRule(Z_AXIS, 2.5, 2, 4, 3));
+    rules.add(new FlipRule(Z_AXIS, 2.5, 2, 4, 2));
 
     tokens = new ArrayList<Token>();
     tokens.add(new Token("sofa", 4, 2));
     tokens.add(new Token("fire", 2, 1));
+  }
+
+  FlipRule currentRule() {
+    return rules.get(currentRuleIndex);
   }
 
   void drawBoard() {
@@ -40,7 +45,7 @@ class Stage {
       for (int z = 0; z < size; z++) {
         if (animStep == 2) {
           cells.get(x).get(z).draw((a, b) -> {
-            currentRule.applyCellTransformation(a, b, softenAnimation(animPercent) * PI);
+            currentRule().applyCellTransformation(a, b, softenAnimation(animPercent) * PI);
           }); 
         }
         else {
@@ -62,6 +67,10 @@ class Stage {
     drawBoard();
 
     directionalLight(255, 255, 255, 1, 0, 1);
+
+    if (animStep == 0) {
+      currentRule().drawOutline();
+    }
     
     for (Token token : tokens) {
       token.draw();
@@ -92,9 +101,9 @@ class Stage {
         break;
       case 3:
         for (Token token : tokens) {
-          if (currentRule.isInRange(token.x, token.z)) {
+          if (currentRule().isInRange(token.x, token.z)) {
             cells.get(token.x).get(token.z).changeColour(true);
-            PVector newPos = currentRule.applyRule(token.x, token.z);
+            PVector newPos = currentRule().applyRule(token.x, token.z);
             token.x = int(newPos.x);
             token.z = int(newPos.z);
             token.unfade();
@@ -108,16 +117,33 @@ class Stage {
     }
   }
 
-  void applyRule(int index) {
+  void applyRule() {
+    if (animStep != 0) {
+      return;
+    }
     animStep = 1;
     animStepCount = 3;
     animPercent = 0;
-    currentRule = rules.get(index);
     for (Token token : tokens) {
-      if (currentRule.isInRange(token.x, token.z)) {
+      if (currentRule().isInRange(token.x, token.z)) {
         token.fade();
         cells.get(token.x).get(token.z).changeColour(token.accentColour);
       }
     }
+  }
+
+  void selectPrevRule() {
+    if (animStep != 0) {
+      return;
+    }
+    currentRuleIndex += rules.size() - 1;
+    currentRuleIndex %= rules.size();
+  }
+  void selectNextRule() {
+    if (animStep != 0) {
+      return;
+    }
+    currentRuleIndex += 1;
+    currentRuleIndex %= rules.size();
   }
 };

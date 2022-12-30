@@ -30,12 +30,12 @@ class Token {
     float buffer = 0.125;
 
     pushMatrix();
-    translate(x - buffer, 0, z - buffer);
+    translate((x - buffer) * CELL_SIZE, 0, (z - buffer) * CELL_SIZE);
     rotateY(-3 * PI / 4);
-    translate(-w / 2, -h - 0.125, 0);
+    translate(-w / 2 * CELL_SIZE, (-h - 0.125) * CELL_SIZE, 0);
 
     tint(255, 255 * softenAnimation(opacity));
-    image(img, 0, 0, w, h);
+    image(img, 0, 0, w * CELL_SIZE, h * CELL_SIZE);
     tint(255);
 
     popMatrix();

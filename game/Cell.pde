@@ -27,10 +27,10 @@ class Cell {
     fill(lerpColor(oldColour, newColour, softenAnimation(colourChangePercent)));
 
     pushMatrix();
-    translate(x, 0, z);
+    translate(x * CELL_SIZE, 0, z * CELL_SIZE);
 
     func.run(x, z);
-    box(1, 0.25, 1);
+    box(CELL_SIZE, 0.25 * CELL_SIZE, CELL_SIZE);
 
     popMatrix();
   }

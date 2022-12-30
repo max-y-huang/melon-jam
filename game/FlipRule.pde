@@ -38,14 +38,45 @@ class FlipRule {
       return;
     }
     if (axis == Z_AXIS) {
-      translate(0, 0, -z + position);
+      translate(0, 0, (-z + position) * CELL_SIZE);
       rotateX(-angle);
-      translate(0, 0, z - position);
+      translate(0, 0, (z - position) * CELL_SIZE);
     }
     else {
-      translate(-x + position, 0, 0);
+      translate((-x + position) * CELL_SIZE, 0, 0);
       rotateZ(angle);
-      translate(x - position, 0, 0);
+      translate((x - position) * CELL_SIZE, 0, 0);
     }
+  }
+
+  void drawOutline() {
+
+    float y = -0.25;
+
+    noFill();
+    stroke(0, 255, 255);
+    strokeWeight(3);
+    
+    pushMatrix();
+
+    float x, z, w, d;
+    if (axis == Z_AXIS) {
+      x = (end1 + end2) / 2.0;
+      z = position;
+      w = end2 - end1 + 1;
+      d = range * 2;
+      line((end1 - 0.5) * CELL_SIZE, y * CELL_SIZE, position * CELL_SIZE, (end2 + 0.5) * CELL_SIZE, y * CELL_SIZE, position * CELL_SIZE);
+    }
+    else {
+      x = position;
+      z = (end1 + end2) / 2.0;
+      w = range * 2;
+      d = end2 - end1 + 1;
+      line(position * CELL_SIZE, y * CELL_SIZE, (end1 - 0.5) * CELL_SIZE, position * CELL_SIZE, y * CELL_SIZE, (end2 + 0.5) * CELL_SIZE);
+    }
+    translate(x * CELL_SIZE, y * CELL_SIZE, z * CELL_SIZE);
+    box(w * CELL_SIZE, 0, d * CELL_SIZE);
+    
+    popMatrix();
   }
 };
