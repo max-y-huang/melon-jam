@@ -1,4 +1,14 @@
 
+class TokenRenderOrderComparator implements Comparator<Token> {  
+  public int compare(Token a, Token b) {
+    if (a.z > b.z) {
+      return -1;
+    }
+    return a.x > b.x ? -1 : 1;
+  }
+};
+
+
 class Stage {
 
   int size;
@@ -28,17 +38,21 @@ class Stage {
     }
 
     rules = new ArrayList<FlipRule>();
-    rules.add(new FlipRule(X_AXIS, 2.5, 2, 4, 3));
-    rules.add(new FlipRule(Z_AXIS, 2.5, 2, 4, 2));
-    rules.add(new FlipRule(X_AXIS, 4.5, 4, 6, 3));
+    rules.add(new FlipRule(X_AXIS, 1, 0, 0, 1.5));
+    rules.add(new FlipRule(X_AXIS, 3, 0, 0, 1.5));
+    rules.add(new FlipRule(Z_AXIS, 1.5, 2, 4, 2));
+    rules.add(new FlipRule(X_AXIS, 3.5, 3, 3, 1));
+    rules.add(new FlipRule(X_AXIS, 1.5, 3, 3, 1));
+    rules.add(new FlipRule(X_AXIS, 1.5, 4, 4, 2));
+    rules.add(new FlipRule(Z_AXIS, 2, 0, 0, 2.5));
 
     tokens = new ArrayList<Token>();
-    tokens.add(new Token("sofa", 4, 2));
-    tokens.add(new Token("fireplace", 2, 1));
-    tokens.add(new Token("teddyBear", 3, 3));
-    tokens.add(new Token("bed", 5, 3));
-    tokens.add(new Token("hotChocolate", 6, 6));
-    tokens.add(new Token("chocolateBar", 7, 5));
+    tokens.add(new Token("sofa", 0, 0));
+    tokens.add(new Token("fireplace", 3, 4));
+    tokens.add(new Token("teddyBear", 0, 4));
+    tokens.add(new Token("bed", 2, 0));
+    // tokens.add(new Token("hotChocolate", 6, 6));
+    // tokens.add(new Token("chocolateBar", 7, 5));
   }
 
   FlipRule currentRule() {
@@ -77,7 +91,9 @@ class Stage {
       currentRule().drawOutline();
     }
     
-    for (Token token : tokens) {
+    ArrayList<Token> sortedTokens = new ArrayList<>(tokens);
+    Collections.sort(sortedTokens, new TokenRenderOrderComparator());
+    for (Token token : sortedTokens) {
       token.draw();
     }
   }

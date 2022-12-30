@@ -1,13 +1,15 @@
+import java.util.*;
+
 
 Stage stage;
 
 
 void setup() {
   size(720, 720, P3D);
-  surface.setTitle("Title Here");
+  surface.setTitle("Flipping Houses");
   smooth(8);
   frameRate(60);
-  stage = new Stage(8);
+  stage = new Stage(5);
 }
 
 
@@ -26,7 +28,7 @@ void draw() {
 }
 
 void drawSelectedRule() {
-  float size = min(height / 32.0, 32);
+  float size = 24;
   noStroke();
 
   pushMatrix();

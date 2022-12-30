@@ -14,30 +14,31 @@ class Token {
     z = _z;
     switch (id) {
       case "fireplace":
-        accentColour = color(255, 128, 0);
+        accentColour = color(255, 220, 110);
         break;
       case "sofa":
-        accentColour = color(181, 148, 47);
+        accentColour = color(47, 168, 238);
         break;
       case "teddyBear":
         accentColour = color(163, 114, 80);
         break;
       case "bed":
-        accentColour = color(0, 255, 0);
+        accentColour = color(219, 140, 124);
         break;
       case "hotChocolate":
         accentColour = color(245, 72, 66);
         break;
       case "chocolateBar":
-        accentColour = color(255, 0, 255);
+        accentColour = color(140, 82, 55);
         break;
     }
   }
   
   void draw() {
+    hint(DISABLE_DEPTH_MASK);
     updateOpacity();
 
-    float w = 0.8;
+    float w = 0.65;
     float h = img.height * w / img.width;
     float buffer = 0.125;
 
@@ -51,6 +52,7 @@ class Token {
     tint(255);
 
     popMatrix();
+    hint(ENABLE_DEPTH_MASK);
   }
 
   void updateOpacity() {

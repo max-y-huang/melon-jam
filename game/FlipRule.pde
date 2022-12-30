@@ -5,10 +5,10 @@ int Z_AXIS = 1;
 
 class FlipRule {
 
-  int axis, end1, end2, range;
-  float position;
+  int axis, end1, end2;
+  float position, range;
   
-  FlipRule(int _axis, float _position, int _end1, int _end2, int _range) {
+  FlipRule(int _axis, float _position, int _end1, int _end2, float _range) {
     axis = _axis;
     position = _position;
     end1 = min(_end1, _end2);
@@ -51,7 +51,7 @@ class FlipRule {
 
   void drawOutline() {
 
-    float y = -0.25;
+    float y = -0.2;
     float dashSize = 1.0 / 6;
 
     noFill();
