@@ -14,6 +14,23 @@
     ]
   },
   {
+    "boardSize": 5,
+    "tokens": [
+      { "id": "teddyBear", "tag": 0, "x": 2, "z": 2 },
+      { "id": "bed", "tag": 0, "x": 1, "z": 4 },
+      { "id": "hotChocolate", "tag": 1, "x": 3, "z": 0 },
+      { "id": "chocolateBar", "tag": 1, "x": 2, "z": 3 },
+      { "id": "sofa", "tag": 2, "x": 2, "z": 1 },
+      { "id": "fireplace", "tag": 2, "x": 0, "z": 2 }
+    ],
+    "rules": [
+      { "axis": "X_AXIS", "position": 1.5, "end1": 2, "end2": 3, "range": 1 },
+      { "axis": "Z_AXIS", "position": 2.5, "end1": 1, "end2": 2, "range": 1 },
+      { "axis": "Z_AXIS", "position": 1.5, "end1": 2, "end2": 3, "range": 1 },
+      { "axis": "X_AXIS", "position": 2.5, "end1": 1, "end2": 2, "range": 1 }
+    ]
+  },
+  {
     "boardSize": 3,
     "tokens": [
       { "id": "hotChocolate", "tag": 0, "x": 2, "z": 0 },
