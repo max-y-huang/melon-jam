@@ -10,7 +10,7 @@ int END_SCREEN = 2;
 
 int oldWidth = 0, oldHeight = 0;
 
-float volume = 0.25;
+float volume = 0.7;
 
 
 SoundFile bgm;
