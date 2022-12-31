@@ -27,8 +27,8 @@ class Stage {
   ArrayList<Token> tokens;
 
   Stage(int _level) {
-    wall1Img = loadImage("assets/imgs/wall1.png");
-    wall2Img = loadImage("assets/imgs/wall2.png");
+    wall1Img = loadImage("data/imgs/wall1.png");
+    wall2Img = loadImage("data/imgs/wall2.png");
     loadLevel(level);
   }
 

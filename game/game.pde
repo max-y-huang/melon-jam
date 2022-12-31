@@ -12,21 +12,20 @@ Stage stage;
 void setup() {
   fullScreen(P3D);
   surface.setTitle("Flipping Houses");
-  surface.setIcon(loadImage("data/icon.png"));
   smooth(8);
   frameRate(60);
 
-  bgm = new SoundFile(this, "assets/audio/bgm.wav");
+  bgm = new SoundFile(this, "data/audio/bgm.wav");
   bgm.amp(0.5);
   bgm.loop();
 
-  cursorSe = new SoundFile(this, "assets/audio/cursor.wav");
+  cursorSe = new SoundFile(this, "data/audio/cursor.wav");
   cursorSe.amp(0.67);
 
-  swapSe = new SoundFile(this, "assets/audio/swap2.wav");
+  swapSe = new SoundFile(this, "data/audio/swap2.wav");
   swapSe.amp(0.67);
 
-  clearLevelSe = new SoundFile(this, "assets/audio/clearLevel2.wav");
+  clearLevelSe = new SoundFile(this, "data/audio/clearLevel2.wav");
   clearLevelSe.amp(0.67);
 
   stage = new Stage(0);

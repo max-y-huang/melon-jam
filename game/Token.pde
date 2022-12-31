@@ -10,7 +10,7 @@ class Token {
   float opacityVel = 0;
 
   Token(String id, int _tag, int _x, int _z) {
-    img = loadImage("assets/imgs/tokens/" + id + ".png");
+    img = loadImage("data/imgs/tokens/" + id + ".png");
     tag = _tag;
     x = _x;
     z = _z;
