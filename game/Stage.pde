@@ -14,8 +14,9 @@ class Stage {
   int level;
   int size;
 
+  PImage wall1Img, wall2Img;
+
   int animStep = 0;
-  int animStepCount = 0;
   float animPercent = 0;
 
   int currentRuleIndex = 0;
@@ -26,6 +27,8 @@ class Stage {
   ArrayList<Token> tokens;
 
   Stage(int _level) {
+    wall1Img = loadImage("assets/imgs/wall1.png");
+    wall2Img = loadImage("assets/imgs/wall2.png");
     loadLevel(level);
   }
 
@@ -88,11 +91,9 @@ class Stage {
     return true;
   }
 
-  void checkWin() {
-    if (isWinningPosition()) {
-      if (!loadLevel(level + 1)) {
-        exit();
-      }
+  void handleWin() {
+    if (!loadLevel(level + 1)) {
+      exit();
     }
   }
 
@@ -114,6 +115,33 @@ class Stage {
       }
     }
   }
+
+  void drawWalls() {
+
+    if (animStep != 4) {
+      return;
+    }
+
+    tint(255, 255 * 10 * softenAnimation(animPercent));
+
+    // x-axis wall
+    pushMatrix();
+    translate(size / 2.0 - 0.5, 0, size - 0.5);
+    rotateY(PI);
+    translate(-size / 2.0, -size / 2.0 - 0.125, 0);
+    image(wall2Img, 0, 0, size, size / 2.0);
+    popMatrix();
+
+    // z-axis wall
+    pushMatrix();
+    translate(size - 0.5, 0, size / 2.0 - 0.5);
+    rotateY(-PI / 2);
+    translate(-size / 2.0, -size / 2.0 - 0.125, 0);
+    image(wall1Img, 0, 0, size, size / 2.0);
+    popMatrix();
+
+    tint(255);
+  }
   
   void draw() {
 
@@ -121,11 +149,20 @@ class Stage {
 
     camera.draw();
 
-    ambientLight(172, 172, 172);
-    directionalLight(232, 232, 232, 0.5, 0.5, -1);
+    noLights();
+    directionalLight(224, 224, 224, 1, 0, 0);
+    directionalLight(255, 255, 255, 0, 0, 1);
+
+    drawWalls();
+
+    noLights();
+    directionalLight(208, 208, 208, 0, 1, 0);
+    directionalLight(108, 108, 108, 1, 0, 0);
+    directionalLight(156, 156, 156, 0, 0, 1);
 
     drawBoard();
 
+    noLights();
     directionalLight(255, 255, 255, 1, 0, 1);
 
     if (animStep == 0) {
@@ -143,6 +180,7 @@ class Stage {
     if (animStep == 0) {
       return;
     }
+    // update animation
     switch (animStep) {
       case 1:
         animPercent += 0.07;
@@ -151,8 +189,11 @@ class Stage {
         animPercent += 0.02;
         break;
       case 3:
-        animPercent += 0.07;
+        animPercent += 0.05;
+      case 4:
+        animPercent += 0.006;
     }
+    // move to next animation step
     if (animPercent < 1) {
       return;
     }
@@ -174,8 +215,21 @@ class Stage {
           }
         }
         break;
+      case 4:
+        if (isWinningPosition()) {
+          clearLevelSe.play();
+          for (ArrayList<Cell> row : cells) {
+            for (Cell cell : row) {
+              cell.changeToWinColour();
+            }
+          }
+        }
+        else {
+          animStep = 0;
+        }
+        break;
       default:
-        checkWin();
+        handleWin();
         animStep = 0;
     }
   }
@@ -185,8 +239,8 @@ class Stage {
       return;
     }
     animStep = 1;
-    animStepCount = 3;
     animPercent = 0;
+    swapSe.play();
     for (Token token : tokens) {
       if (currentRule().isInRange(token.x, token.z)) {
         token.fade();
@@ -199,6 +253,7 @@ class Stage {
     if (animStep != 0) {
       return;
     }
+    cursorSe.play();
     currentRuleIndex += rules.size() - 1;
     currentRuleIndex %= rules.size();
   }
@@ -206,6 +261,7 @@ class Stage {
     if (animStep != 0) {
       return;
     }
+    cursorSe.play();
     currentRuleIndex += 1;
     currentRuleIndex %= rules.size();
   }

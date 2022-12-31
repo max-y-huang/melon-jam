@@ -7,10 +7,13 @@ interface TransformationFunc {
 class Cell {
 
   int x, z;
-  color defaultColour = color(48, 48, 48);
+  color defaultColour = color(56, 56, 56);
+  color winColour = color(248, 184, 144);
   color oldColour;
   color newColour;
   float colourChangePercent = 0;
+
+  boolean outline = true;
 
   Cell(int _x, int _z) {
     x = _x;
@@ -22,8 +25,13 @@ class Cell {
   void draw(TransformationFunc func) {
     updateChangeColour();
 
-    stroke(128);
-    strokeWeight(2);
+    if (outline) {
+      stroke(128);
+      strokeWeight(2);
+    }
+    else {
+      noStroke();
+    }
     fill(lerpColor(oldColour, newColour, softenAnimation(colourChangePercent)));
 
     pushMatrix();
@@ -62,5 +70,10 @@ class Cell {
   }
   void changeColour() {
     changeColour(defaultColour, false);
+  }
+
+  void changeToWinColour() {
+    changeColour(winColour);
+    outline = false;
   }
 };

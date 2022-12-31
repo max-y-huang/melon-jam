@@ -1,15 +1,34 @@
 import java.util.*;
-// import processing.sound.*;
+import processing.sound.*;
 
 
+SoundFile bgm;
+SoundFile cursorSe;
+SoundFile swapSe;
+SoundFile clearLevelSe;
 Stage stage;
 
 
 void setup() {
-  size(720, 720, P3D);
+  fullScreen(P3D);
   surface.setTitle("Flipping Houses");
+  surface.setIcon(loadImage("data/icon.png"));
   smooth(8);
   frameRate(60);
+
+  bgm = new SoundFile(this, "assets/audio/bgm.wav");
+  bgm.amp(0.5);
+  bgm.loop();
+
+  cursorSe = new SoundFile(this, "assets/audio/cursor.wav");
+  cursorSe.amp(0.67);
+
+  swapSe = new SoundFile(this, "assets/audio/swap2.wav");
+  swapSe.amp(0.67);
+
+  clearLevelSe = new SoundFile(this, "assets/audio/clearLevel2.wav");
+  clearLevelSe.amp(0.67);
+
   stage = new Stage(0);
 }
 
@@ -61,6 +80,23 @@ void keyPressed() {
     stage.applyRule();
   }
 }
+
+void mouseWheel(MouseEvent event) {
+  float e = event.getCount();
+  if (e < 0) {
+    stage.selectNextRule();
+  }
+  else if (e > 0) {
+    stage.selectPrevRule();
+  }
+}
+
+void mouseReleased() {
+  if (mouseButton == LEFT) {
+    stage.applyRule();
+  }
+}
+
 
 float softenAnimation(float x) {
   return sin(PI * (x - 0.5)) / 2 + 0.5;

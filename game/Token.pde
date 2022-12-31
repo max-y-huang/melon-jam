@@ -37,23 +37,42 @@ class Token {
   }
   
   void draw() {
-    hint(DISABLE_DEPTH_MASK);
-    updateOpacity();
-
     float w = 0.65;
     float h = img.height * w / img.width;
     float buffer = 0.125;
+    float shadowHeight = 0.001;
+
+    hint(DISABLE_DEPTH_MASK);
+    updateOpacity();
+    
+    pushMatrix();
+    
+    noStroke();
+    translate(x - buffer, 0, z - buffer);
+    translate(0, -0.125 - shadowHeight, 0);
+    rotateY(PI / 4);
+    scale(-1, 1, -1);
+    rotateX(PI / 2);
+    shearX(-PI / 8);
+    translate(-w / 2, -h, 0);
+    tint(255, 128 * softenAnimation(opacity));
+
+    image(img, 0, 0, w, h); 
+
+    popMatrix();
 
     pushMatrix();
+
     translate(x - buffer, 0, z - buffer);
     rotateY(-3 * PI / 4);
     translate(-w / 2, -h - 0.125, 0);
-
     tint(255, 255 * softenAnimation(opacity));
+
     image(img, 0, 0, w, h);
-    tint(255);
 
     popMatrix();
+
+    tint(255);
     hint(ENABLE_DEPTH_MASK);
   }
 

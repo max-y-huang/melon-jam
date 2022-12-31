@@ -48,12 +48,12 @@ class FlipRule {
 
   void drawOutline() {
 
-    float y = -0.2;
+    float y = -0.15;
     float dashSize = 1.0 / 6;
 
     noFill();
     stroke(0, 255, 255);
-    strokeWeight(3);
+    strokeWeight(4);
     
     pushMatrix();
 

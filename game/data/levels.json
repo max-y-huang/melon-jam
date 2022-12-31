@@ -6,11 +6,11 @@
       { "id": "chocolateBar", "tag": 0, "x": 0, "z": 0 }
     ],
     "rules": [
-      { "axis": "X_AXIS", "position": 1.5, "end1": 0, "end2": 0, "range": 2 },
-      { "axis": "Z_AXIS", "position": 1.5, "end1": 1, "end2": 1, "range": 1 },
       { "axis": "X_AXIS", "position": 1.5, "end1": 2, "end2": 3, "range": 1 },
+      { "axis": "Z_AXIS", "position": 1.5, "end1": 1, "end2": 1, "range": 1 },
       { "axis": "X_AXIS", "position": 2.5, "end1": 1, "end2": 1, "range": 1 },
-      { "axis": "Z_AXIS", "position": 0.5, "end1": 3, "end2": 3, "range": 1 }
+      { "axis": "Z_AXIS", "position": 0.5, "end1": 3, "end2": 3, "range": 1 },
+      { "axis": "X_AXIS", "position": 1.5, "end1": 0, "end2": 0, "range": 2 }
     ]
   },
   {
