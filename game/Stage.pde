@@ -35,7 +35,8 @@ class Stage {
 
   boolean loadLevel(int _level) {
 
-    JSONArray allLevelsJson = loadJSONArray("data/levels.json");
+    String levelFileName = TESTING ? "testLevels.json" : "levels.json";
+    JSONArray allLevelsJson = loadJSONArray("data/" + levelFileName);
     if (_level >= allLevelsJson.size()) {
       return false;
     }
@@ -134,6 +135,8 @@ class Stage {
 
   void handleWin() {
     if (!loadLevel(level + 1)) {
+      bgm.stop();
+      winGameSe.play();
       screen = END_SCREEN;
     }
   }
@@ -261,7 +264,7 @@ class Stage {
       case 3:
         animPercent += 0.045;
       case 4:
-        animPercent += 0.006;
+        animPercent += 0.008;
     }
     // move to next animation step
     if (animPercent < 1) {

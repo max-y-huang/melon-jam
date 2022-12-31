@@ -1,10 +1,14 @@
 import java.util.*;
 import processing.sound.*;
 
+boolean TESTING = false;
+
 
 int TITLE_SCREEN = 0;
 int GAME_SCREEN = 1;
 int END_SCREEN = 2;
+
+int oldWidth = 0, oldHeight = 0;
 
 float volume = 0.25;
 
@@ -14,6 +18,7 @@ SoundFile cursorSe;
 SoundFile swapSe;
 SoundFile startLevelSe;
 SoundFile clearLevelSe;
+SoundFile winGameSe;
 
 PFont karla;
 PFont karlaTitle;
@@ -40,7 +45,6 @@ void setup() {
 
   bgm = new SoundFile(this, "data/audio/bgm.wav");
   bgm.amp(0.5 * volume);
-  bgm.loop();
 
   cursorSe = new SoundFile(this, "data/audio/cursor.wav");
   cursorSe.amp(0.67 * volume);
@@ -54,16 +58,35 @@ void setup() {
   clearLevelSe = new SoundFile(this, "data/audio/clearLevel.wav");
   clearLevelSe.amp(0.67 * volume);
 
-  karla = createFont("fonts/karlaRegular.ttf", em());
-  karlaTitle = createFont("fonts/karlaBold.ttf", 2.5 * em());
+  winGameSe = new SoundFile(this, "data/audio/winGame.wav");
+  winGameSe.amp(0.67 * volume);
 
   titleScreenImg = loadImage("data/imgs/titlePage.jpg");
 
+  resizeAssets();
+
   screen = TITLE_SCREEN;
+  bgm.loop();
+}
+
+
+void resizeAssets() {
+  karla = createFont("fonts/karlaRegular.ttf", em());
+  karlaTitle = createFont("fonts/karlaBold.ttf", 2.5 * em());
+  if (stage != null) {
+    stage.createComplementaryTokensImg();
+  }
 }
 
 
 void draw() {
+
+  if (oldWidth != width || oldHeight != height) {
+    resizeAssets();
+    oldWidth = width;
+    oldHeight = height;
+  }
+
   if (screen != TITLE_SCREEN) {
     stage.drawLevel();
   }
@@ -79,7 +102,6 @@ void draw() {
   if (screen == TITLE_SCREEN) {
     noStroke();
     imageMode(CENTER);
-    // tint(198, 99, 62, 64);
     float imageAspectRatio = titleScreenImg.width * 1.0 / titleScreenImg.height;
     float screenAspectRatio = width * 1.0 / height;
     if (imageAspectRatio > screenAspectRatio) {
@@ -88,18 +110,21 @@ void draw() {
     else {
       image(titleScreenImg, width / 2, height / 2, width, width / imageAspectRatio);
     }
-    tint(255);
     imageMode(CORNER);
-    textAlign(CENTER, BOTTOM);
-    textFont(karlaTitle);
-    fill(255);
-    text("Flipping Houses", width / 2, height / 3);
-    textFont(karla);
-    textAlign(CENTER, TOP);
-    text("\nPress any key to play.\n\n" + "Cozify the rooms by moving complementary items beside each other.\n\n" +
-      "Left/A/Scroll: Select previous move\n" +
-      "Right/D/Scroll: Select next move\n" +
-      "Space/LMB: Flip", width / 2, height / 3);
+    if (!promptingClose) {
+      textAlign(CENTER, BOTTOM);
+      textFont(karlaTitle);
+      fill(255);
+      text("Flipping Houses", width / 2, height / 3);
+      textFont(karla);
+      textAlign(CENTER, TOP);
+      text("\nPress any key to play.\n\n" +
+        "Cozify the rooms by moving complementary items beside each other.\n\n" +
+        "Left/A/Scroll: Select previous move\n" +
+        "Right/D/Scroll: Select next move\n" +
+        "Space/LMB: Flip\n" + 
+        "Escape: Exit game", width / 2, height / 3);
+    }
 
   }
   if (screen == END_SCREEN && !promptingClose) {
@@ -139,6 +164,7 @@ void keyPressed() {
   else {
     if (key == ESC) {
       promptingClose = true;
+      startLevelSe.play();
       key = 0;
     }
     else if (screen == GAME_SCREEN) {
@@ -158,6 +184,7 @@ void keyPressed() {
     }
     else if (screen == END_SCREEN) {
       screen = TITLE_SCREEN;
+      bgm.loop();
     }
   }
 }
@@ -192,13 +219,14 @@ void mouseReleased() {
     }
     else if (screen == END_SCREEN) {
       screen = TITLE_SCREEN;
+      bgm.loop();
     }
   }
 }
 
 
 float em() {
-  return displayHeight / 48.0;
+  return height / 32.0;
 }
 
 
