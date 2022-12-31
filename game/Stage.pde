@@ -241,9 +241,9 @@ class Stage {
     textAlign(LEFT, TOP);
     textFont(karla);
     fill(255);
-    text("Level " + (level + 1), em(), em() * 0.9);
+    text("Level " + (level + 1), 2 * em(), 2 * em() * 0.9);
 
-    image(complementaryTokensImg, width - complementaryTokensImg.width - em(), em() * 0.9);
+    image(complementaryTokensImg, width - complementaryTokensImg.width - 2 * em(), 2 * em() * 0.9);
   }
 
   void handleAnim() {
