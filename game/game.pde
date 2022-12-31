@@ -7,6 +7,8 @@ int TITLE_SCREEN = 0;
 int GAME_SCREEN = 1;
 int END_SCREEN = 2;
 
+float volume = 0.5;
+
 
 SoundFile bgm;
 SoundFile cursorSe;
@@ -37,20 +39,20 @@ void setup() {
   frameRate(60);
 
   bgm = new SoundFile(this, "data/audio/bgm.wav");
-  bgm.amp(0.5);
+  bgm.amp(0.5 * volume);
   bgm.loop();
 
   cursorSe = new SoundFile(this, "data/audio/cursor.wav");
-  cursorSe.amp(0.67);
+  cursorSe.amp(0.67 * volume);
 
   swapSe = new SoundFile(this, "data/audio/swap2.wav");
-  swapSe.amp(0.67);
+  swapSe.amp(0.67 * volume);
 
   startLevelSe = new SoundFile(this, "data/audio/startLevel.wav");
-  startLevelSe.amp(0.67);
+  startLevelSe.amp(0.67 * volume);
 
   clearLevelSe = new SoundFile(this, "data/audio/clearLevel2.wav");
-  clearLevelSe.amp(0.67);
+  clearLevelSe.amp(0.67 * volume);
 
   karla = createFont("fonts/karlaRegular.ttf", em());
   karlaTitle = createFont("fonts/karlaBold.ttf", 2.5 * em());
