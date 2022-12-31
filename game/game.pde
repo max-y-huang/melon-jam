@@ -35,6 +35,7 @@ void settings() {
 
 void setup() {
   surface.setTitle("Flipping Houses");
+  surface.setLocation(displayWidth * 1 / 8, displayHeight * 1 / 8);
   frameRate(60);
 
   bgm = new SoundFile(this, "data/audio/bgm.wav");
@@ -44,13 +45,13 @@ void setup() {
   cursorSe = new SoundFile(this, "data/audio/cursor.wav");
   cursorSe.amp(0.67 * volume);
 
-  swapSe = new SoundFile(this, "data/audio/swap2.wav");
+  swapSe = new SoundFile(this, "data/audio/swap.wav");
   swapSe.amp(0.67 * volume);
 
   startLevelSe = new SoundFile(this, "data/audio/startLevel.wav");
   startLevelSe.amp(0.67 * volume);
 
-  clearLevelSe = new SoundFile(this, "data/audio/clearLevel2.wav");
+  clearLevelSe = new SoundFile(this, "data/audio/clearLevel.wav");
   clearLevelSe.amp(0.67 * volume);
 
   karla = createFont("fonts/karlaRegular.ttf", em());

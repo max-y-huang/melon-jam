@@ -16,6 +16,21 @@
   {
     "boardSize": 5,
     "tokens": [
+      { "id": "teddyBear", "tag": 0, "x": 3, "z": 1 },
+      { "id": "bed", "tag": 0, "x": 1, "z": 4 }
+    ],
+    "rules": [
+      { "axis": "X_AXIS", "position": 0.5, "end1": 0, "end2": 2, "range": 1 },
+      { "axis": "Z_AXIS", "position": 1, "end1": 0, "end2": 0, "range": 1.5 },
+      { "axis": "X_AXIS", "position": 2, "end1": 1, "end2": 3, "range": 1.5 },
+      { "axis": "X_AXIS", "position": 1.5, "end1": 0, "end2": 1, "range": 1 },
+      { "axis": "Z_AXIS", "position": 3, "end1": 3, "end2": 3, "range": 1.5 },
+      { "axis": "X_AXIS", "position": 2, "end1": 2, "end2": 4, "range": 1.5 }
+    ]
+  },
+  {
+    "boardSize": 5,
+    "tokens": [
       { "id": "teddyBear", "tag": 0, "x": 2, "z": 2 },
       { "id": "bed", "tag": 0, "x": 1, "z": 4 },
       { "id": "hotChocolate", "tag": 1, "x": 3, "z": 0 },
@@ -28,21 +43,6 @@
       { "axis": "Z_AXIS", "position": 2.5, "end1": 1, "end2": 2, "range": 1 },
       { "axis": "Z_AXIS", "position": 1.5, "end1": 2, "end2": 3, "range": 1 },
       { "axis": "X_AXIS", "position": 2.5, "end1": 1, "end2": 2, "range": 1 }
-    ]
-  },
-  {
-    "boardSize": 5,
-    "tokens": [
-      { "id": "teddyBear", "tag": 0, "x": 3, "z": 1 },
-      { "id": "bed", "tag": 0, "x": 1, "z": 4 }
-    ],
-    "rules": [
-      { "axis": "X_AXIS", "position": 0.5, "end1": 0, "end2": 2, "range": 1 },
-      { "axis": "Z_AXIS", "position": 1, "end1": 0, "end2": 0, "range": 1.5 },
-      { "axis": "X_AXIS", "position": 2, "end1": 1, "end2": 3, "range": 1.5 },
-      { "axis": "X_AXIS", "position": 1.5, "end1": 0, "end2": 1, "range": 1 },
-      { "axis": "Z_AXIS", "position": 3, "end1": 3, "end2": 3, "range": 1.5 },
-      { "axis": "X_AXIS", "position": 2, "end1": 2, "end2": 4, "range": 1.5 }
     ]
   },
   {
