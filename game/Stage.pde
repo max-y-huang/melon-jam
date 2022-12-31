@@ -95,7 +95,7 @@ class Stage {
 
   void handleWin() {
     if (!loadLevel(level + 1)) {
-      exit();
+      screen = END_SCREEN;
     }
   }
 
@@ -120,11 +120,13 @@ class Stage {
 
   void drawWalls() {
 
-    if (animStep != 4) {
+    if (animStep != 4 && screen == GAME_SCREEN) {
       return;
     }
-
-    tint(255, 255 * 10 * softenAnimation(animPercent));
+    
+    if (screen == GAME_SCREEN) {
+      tint(255, 255 * 10 * softenAnimation(animPercent));
+    }
 
     // x-axis wall
     pushMatrix();
@@ -149,13 +151,7 @@ class Stage {
 
     handleAnim();
 
-    // if (animStep == 4) {
-    //   background(lerpColor(color(32, 32, 32), color(255), 10 * softenAnimation(animPercent)));
-    // }
-    // else {
-      background(32, 32, 32);
-    // }
-    
+    background(32, 32, 32);
 
     camera.draw();
 
@@ -175,7 +171,7 @@ class Stage {
     noLights();
     directionalLight(255, 255, 255, 1, 0, 1);
 
-    if (animStep == 0) {
+    if (animStep == 0 && screen == GAME_SCREEN) {
       currentRule().drawOutline();
     }
     

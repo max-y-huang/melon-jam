@@ -1,7 +1,9 @@
 import java.util.*;
+import javax.swing.*; 
 import processing.sound.*;
 
-int START_SCREEN = 0;
+
+int TITLE_SCREEN = 0;
 int GAME_SCREEN = 1;
 int END_SCREEN = 2;
 
@@ -15,16 +17,18 @@ SoundFile clearLevelSe;
 PFont karla;
 PFont karlaTitle;
 
+PImage titleScreenImg;
+
 
 Stage stage;
 int screen;
+boolean promptingClose = false;
 
 
 void setup() {
-  size(1080, 720, P3D);
-  // fullScreen(P3D);
+  fullScreen(P3D);
   surface.setTitle("Flipping Houses");
-  smooth(8);
+  smooth(4);
   frameRate(60);
 
   bgm = new SoundFile(this, "data/audio/bgm.wav");
@@ -46,12 +50,14 @@ void setup() {
   karla = createFont("fonts/karlaRegular.ttf", em());
   karlaTitle = createFont("fonts/karlaBold.ttf", 2.5 * em());
 
-  screen = START_SCREEN;
+  titleScreenImg = loadImage("data/imgs/titleScreen.png");
+
+  screen = TITLE_SCREEN;
 }
 
 
 void draw() {
-  if (screen == GAME_SCREEN) {
+  if (screen != TITLE_SCREEN) {
     stage.draw();
   }
 
@@ -60,20 +66,35 @@ void draw() {
   hint(DISABLE_DEPTH_TEST);
   noLights();
 
-  if (screen == GAME_SCREEN) {
+  if (screen != TITLE_SCREEN) {
     drawSelectedRule();
 
     textAlign(LEFT, TOP);
     textFont(karla);
     fill(255);
-    text("Level " + stage.level, em(), em() * 0.9);
+    text("Level " + (stage.level + 1), em(), em() * 0.9);
   }
-  else if (screen == START_SCREEN) {
-    background(32, 32, 32);
+  if (screen == TITLE_SCREEN) {
+    image(titleScreenImg, 0, 0, width, height);
+  }
+  if (screen == END_SCREEN && !promptingClose) {
+    noStroke();
+    fill(32, 32, 32, 128);
+    rect(0, 0, width, height);
     textAlign(CENTER, CENTER);
     textFont(karlaTitle);
     fill(255);
-    text("Flipping Houses", width / 2, height / 2);
+    text("You Win", width / 2, height / 2);
+  }
+
+  if (promptingClose) {
+    noStroke();
+    fill(32, 32, 32, 128);
+    rect(0, 0, width, height);
+    textAlign(CENTER, CENTER);
+    textFont(karla);
+    fill(255);
+    text("Are you sure you want to close the game?\nPress 'Esc' again to confirm, or press any other key to cancel.", width / 2, height / 2);
   }
 
   hint(ENABLE_DEPTH_TEST);
@@ -102,44 +123,71 @@ void drawSelectedRule() {
 
 
 void keyPressed() {
-  if (screen == GAME_SCREEN) {
-    if ((key == CODED && keyCode == LEFT) || key == 'a' || key == 'A') {
-      stage.selectPrevRule();
+  if (promptingClose) {
+    if (key == ESC) {
+      exit();
     }
-    if ((key == CODED && keyCode == RIGHT) || key == 'd' || key == 'D') {
-      stage.selectNextRule();
-    }
-    else if (key == ' ') {
-      stage.applyRule();
+    else {
+      promptingClose = false;
     }
   }
-  else if (screen == START_SCREEN) {
-    stage = new Stage(0);
-    screen = GAME_SCREEN;
+  else {
+    if (key == ESC) {
+      promptingClose = true;
+      key = 0;
+    }
+    else if (screen == GAME_SCREEN) {
+      if ((key == CODED && keyCode == LEFT) || key == 'a' || key == 'A') {
+        stage.selectPrevRule();
+      }
+      if ((key == CODED && keyCode == RIGHT) || key == 'd' || key == 'D') {
+        stage.selectNextRule();
+      }
+      else if (key == ' ') {
+        stage.applyRule();
+      }
+    }
+    else if (screen == TITLE_SCREEN) {
+      stage = new Stage(0);
+      screen = GAME_SCREEN;
+    }
+    else if (screen == END_SCREEN) {
+      screen = TITLE_SCREEN;
+    }
   }
 }
 
 void mouseWheel(MouseEvent event) {
   float e = event.getCount();
-  if (screen == GAME_SCREEN) {
-    if (e < 0) {
-      stage.selectNextRule();
-    }
-    else if (e > 0) {
-      stage.selectPrevRule();
+  if (!promptingClose) {
+    if (screen == GAME_SCREEN) {
+      if (e < 0) {
+        stage.selectNextRule();
+      }
+      else if (e > 0) {
+        stage.selectPrevRule();
+      }
     }
   }
 }
 
 void mouseReleased() {
-  if (screen == GAME_SCREEN) {
-    if (mouseButton == LEFT) {
-      stage.applyRule();
-    }
+  if (promptingClose) {
+    promptingClose = false;
   }
-  else if (screen == START_SCREEN) {
-    stage = new Stage(0);
-    screen = GAME_SCREEN;
+  else {
+    if (screen == GAME_SCREEN) {
+      if (mouseButton == LEFT) {
+        stage.applyRule();
+      }
+    }
+    else if (screen == TITLE_SCREEN) {
+      stage = new Stage(0);
+      screen = GAME_SCREEN;
+    }
+    else if (screen == END_SCREEN) {
+      screen = TITLE_SCREEN;
+    }
   }
 }
 
