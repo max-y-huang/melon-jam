@@ -49,7 +49,7 @@ class Token {
     
     noStroke();
     translate(x - buffer, 0, z - buffer);
-    translate(0, -0.125 - shadowHeight, 0);
+    translate(0, -0.075 - shadowHeight, 0);
     rotateY(PI / 4);
     scale(-1, 1, -1);
     rotateX(PI / 2);
@@ -65,7 +65,7 @@ class Token {
 
     translate(x - buffer, 0, z - buffer);
     rotateY(-3 * PI / 4);
-    translate(-w / 2, -h - 0.125, 0);
+    translate(-w / 2, -h - 0.075, 0);
     tint(255, 255 * softenAnimation(opacity));
 
     image(img, 0, 0, w, h);
@@ -89,9 +89,9 @@ class Token {
   }
 
   void fade() {
-    opacityVel = -0.07;
+    opacityVel = -0.06;
   }
   void unfade() {
-    opacityVel = 0.07;
+    opacityVel = 0.06;
   }
 };

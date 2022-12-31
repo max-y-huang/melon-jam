@@ -48,7 +48,7 @@ class FlipRule {
 
   void drawOutline() {
 
-    float y = -0.15;
+    float y = -0.125;
     float dashSize = 1.0 / 6;
 
     noFill();

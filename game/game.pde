@@ -1,16 +1,28 @@
 import java.util.*;
 import processing.sound.*;
 
+int START_SCREEN = 0;
+int GAME_SCREEN = 1;
+int END_SCREEN = 2;
+
 
 SoundFile bgm;
 SoundFile cursorSe;
 SoundFile swapSe;
+SoundFile startLevelSe;
 SoundFile clearLevelSe;
+
+PFont karla;
+PFont karlaTitle;
+
+
 Stage stage;
+int screen;
 
 
 void setup() {
-  fullScreen(P3D);
+  size(1080, 720, P3D);
+  // fullScreen(P3D);
   surface.setTitle("Flipping Houses");
   smooth(8);
   frameRate(60);
@@ -25,29 +37,50 @@ void setup() {
   swapSe = new SoundFile(this, "data/audio/swap2.wav");
   swapSe.amp(0.67);
 
+  startLevelSe = new SoundFile(this, "data/audio/startLevel.wav");
+  startLevelSe.amp(0.67);
+
   clearLevelSe = new SoundFile(this, "data/audio/clearLevel2.wav");
   clearLevelSe.amp(0.67);
 
-  stage = new Stage(0);
+  karla = createFont("fonts/karlaRegular.ttf", em());
+  karlaTitle = createFont("fonts/karlaBold.ttf", 2.5 * em());
+
+  screen = START_SCREEN;
 }
 
 
 void draw() {
-  background(32, 32, 32);
-  stage.draw();
+  if (screen == GAME_SCREEN) {
+    stage.draw();
+  }
 
   camera();
   perspective();
   hint(DISABLE_DEPTH_TEST);
   noLights();
 
-  drawSelectedRule();
+  if (screen == GAME_SCREEN) {
+    drawSelectedRule();
+
+    textAlign(LEFT, TOP);
+    textFont(karla);
+    fill(255);
+    text("Level " + stage.level, em(), em() * 0.9);
+  }
+  else if (screen == START_SCREEN) {
+    background(32, 32, 32);
+    textAlign(CENTER, CENTER);
+    textFont(karlaTitle);
+    fill(255);
+    text("Flipping Houses", width / 2, height / 2);
+  }
 
   hint(ENABLE_DEPTH_TEST);
 }
 
 void drawSelectedRule() {
-  float size = 24;
+  float size = em() * 2 / 3;
   noStroke();
 
   pushMatrix();
@@ -69,31 +102,50 @@ void drawSelectedRule() {
 
 
 void keyPressed() {
-  if ((key == CODED && keyCode == LEFT) || key == 'a' || key == 'A') {
-    stage.selectPrevRule();
+  if (screen == GAME_SCREEN) {
+    if ((key == CODED && keyCode == LEFT) || key == 'a' || key == 'A') {
+      stage.selectPrevRule();
+    }
+    if ((key == CODED && keyCode == RIGHT) || key == 'd' || key == 'D') {
+      stage.selectNextRule();
+    }
+    else if (key == ' ') {
+      stage.applyRule();
+    }
   }
-  if ((key == CODED && keyCode == RIGHT) || key == 'd' || key == 'D') {
-    stage.selectNextRule();
-  }
-  else if (key == ' ') {
-    stage.applyRule();
+  else if (screen == START_SCREEN) {
+    stage = new Stage(0);
+    screen = GAME_SCREEN;
   }
 }
 
 void mouseWheel(MouseEvent event) {
   float e = event.getCount();
-  if (e < 0) {
-    stage.selectNextRule();
-  }
-  else if (e > 0) {
-    stage.selectPrevRule();
+  if (screen == GAME_SCREEN) {
+    if (e < 0) {
+      stage.selectNextRule();
+    }
+    else if (e > 0) {
+      stage.selectPrevRule();
+    }
   }
 }
 
 void mouseReleased() {
-  if (mouseButton == LEFT) {
-    stage.applyRule();
+  if (screen == GAME_SCREEN) {
+    if (mouseButton == LEFT) {
+      stage.applyRule();
+    }
   }
+  else if (screen == START_SCREEN) {
+    stage = new Stage(0);
+    screen = GAME_SCREEN;
+  }
+}
+
+
+float em() {
+  return displayHeight / 48.0;
 }
 
 

@@ -72,6 +72,8 @@ class Stage {
       cells.add(row);
     }
 
+    startLevelSe.play();
+
     return true;
   }
 
@@ -128,7 +130,7 @@ class Stage {
     pushMatrix();
     translate(size / 2.0 - 0.5, 0, size - 0.5);
     rotateY(PI);
-    translate(-size / 2.0, -size / 2.0 - 0.125, 0);
+    translate(-size / 2.0, -size / 2.0 - 0.075, 0);
     image(wall2Img, 0, 0, size, size / 2.0);
     popMatrix();
 
@@ -136,7 +138,7 @@ class Stage {
     pushMatrix();
     translate(size - 0.5, 0, size / 2.0 - 0.5);
     rotateY(-PI / 2);
-    translate(-size / 2.0, -size / 2.0 - 0.125, 0);
+    translate(-size / 2.0, -size / 2.0 - 0.075, 0);
     image(wall1Img, 0, 0, size, size / 2.0);
     popMatrix();
 
@@ -147,18 +149,26 @@ class Stage {
 
     handleAnim();
 
+    // if (animStep == 4) {
+    //   background(lerpColor(color(32, 32, 32), color(255), 10 * softenAnimation(animPercent)));
+    // }
+    // else {
+      background(32, 32, 32);
+    // }
+    
+
     camera.draw();
 
     noLights();
-    directionalLight(224, 224, 224, 1, 0, 0);
+    directionalLight(232, 232, 232, 1, 0, 0);
     directionalLight(255, 255, 255, 0, 0, 1);
 
     drawWalls();
 
     noLights();
-    directionalLight(208, 208, 208, 0, 1, 0);
-    directionalLight(108, 108, 108, 1, 0, 0);
-    directionalLight(156, 156, 156, 0, 0, 1);
+    directionalLight(255, 255, 255, 0, 1, 0);
+    directionalLight(128, 128, 128, 1, 0, 0);
+    directionalLight(184, 184, 184, 0, 0, 1);
 
     drawBoard();
 
@@ -183,13 +193,13 @@ class Stage {
     // update animation
     switch (animStep) {
       case 1:
-        animPercent += 0.07;
+        animPercent += 0.06;
         break;
       case 2:
         animPercent += 0.02;
         break;
       case 3:
-        animPercent += 0.05;
+        animPercent += 0.045;
       case 4:
         animPercent += 0.006;
     }

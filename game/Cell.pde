@@ -7,8 +7,8 @@ interface TransformationFunc {
 class Cell {
 
   int x, z;
-  color defaultColour = color(56, 56, 56);
-  color winColour = color(248, 184, 144);
+  color defaultColour = color(48, 48, 48);
+  color winColour = color(124, 163, 143);
   color oldColour;
   color newColour;
   float colourChangePercent = 0;
@@ -38,7 +38,7 @@ class Cell {
     translate(x, 0, z);
 
     func.run(x, z);
-    box(1, 0.25, 1);
+    box(1, 0.15, 1);
 
     popMatrix();
   }
@@ -48,7 +48,7 @@ class Cell {
 
   void updateChangeColour() {
     if (oldColour != newColour) {
-      colourChangePercent += 0.07;
+      colourChangePercent += 0.06;
       if (colourChangePercent >= 1) {
         oldColour = newColour;
       }
