@@ -133,7 +133,7 @@ class Stage {
     translate(size / 2.0 - 0.5, 0, size - 0.5);
     rotateY(PI);
     translate(-size / 2.0, -size / 2.0 - 0.075, 0);
-    image(wall2Img, 0, 0, size, size / 2.0);
+    image(wall1Img, 0, 0, size, size / 2.0);
     popMatrix();
 
     // z-axis wall
@@ -141,7 +141,7 @@ class Stage {
     translate(size - 0.5, 0, size / 2.0 - 0.5);
     rotateY(-PI / 2);
     translate(-size / 2.0, -size / 2.0 - 0.075, 0);
-    image(wall1Img, 0, 0, size, size / 2.0);
+    image(wall2Img, 0, 0, size, size / 2.0);
     popMatrix();
 
     tint(255);
@@ -156,15 +156,15 @@ class Stage {
     camera.draw();
 
     noLights();
-    directionalLight(232, 232, 232, 1, 0, 0);
-    directionalLight(255, 255, 255, 0, 0, 1);
+    directionalLight(255, 255, 255, 1, 0, 0);
+    directionalLight(184, 184, 184, 0, 0, 1);
 
     drawWalls();
 
     noLights();
     directionalLight(255, 255, 255, 0, 1, 0);
-    directionalLight(128, 128, 128, 1, 0, 0);
-    directionalLight(184, 184, 184, 0, 0, 1);
+    directionalLight(184, 184, 184, 1, 0, 0);
+    directionalLight(128, 128, 128, 0, 0, 1);
 
     drawBoard();
 

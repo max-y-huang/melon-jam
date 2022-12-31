@@ -55,7 +55,7 @@ class Token {
     rotateX(PI / 2);
     shearX(-PI / 8);
     translate(-w / 2, -h, 0);
-    tint(255, 128 * softenAnimation(opacity));
+    tint(255, 64 * softenAnimation(opacity));
 
     image(img, 0, 0, w, h); 
 

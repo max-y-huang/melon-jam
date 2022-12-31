@@ -25,10 +25,15 @@ int screen;
 boolean promptingClose = false;
 
 
-void setup() {
-  fullScreen(P3D);
-  surface.setTitle("Flipping Houses");
+void settings() {
+  size(displayWidth * 3 / 4, displayHeight * 3 / 4, P3D);
+  PJOGL.setIcon("data/imgs/icon.png");
   smooth(4);
+}
+
+
+void setup() {
+  surface.setTitle("Flipping Houses");
   frameRate(60);
 
   bgm = new SoundFile(this, "data/audio/bgm.wav");
