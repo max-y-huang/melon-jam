@@ -56,7 +56,7 @@ void setup() {
   karla = createFont("fonts/karlaRegular.ttf", em());
   karlaTitle = createFont("fonts/karlaBold.ttf", 2.5 * em());
 
-  titleScreenImg = loadImage("data/imgs/titleScreen.png");
+  titleScreenImg = loadImage("data/imgs/titlePage.jpg");
 
   screen = TITLE_SCREEN;
 }
@@ -76,7 +76,30 @@ void draw() {
     stage.drawHUD();
   }
   if (screen == TITLE_SCREEN) {
-    image(titleScreenImg, 0, 0, width, height);
+    noStroke();
+    imageMode(CENTER);
+    // tint(198, 99, 62, 64);
+    float imageAspectRatio = titleScreenImg.width * 1.0 / titleScreenImg.height;
+    float screenAspectRatio = width * 1.0 / height;
+    if (imageAspectRatio > screenAspectRatio) {
+      image(titleScreenImg, width / 2, height / 2, height * imageAspectRatio, height);
+    }
+    else {
+      image(titleScreenImg, width / 2, height / 2, width, width / imageAspectRatio);
+    }
+    tint(255);
+    imageMode(CORNER);
+    textAlign(CENTER, BOTTOM);
+    textFont(karlaTitle);
+    fill(255);
+    text("Flipping Houses", width / 2, height / 3);
+    textFont(karla);
+    textAlign(CENTER, TOP);
+    text("\nPress any key to play.\n\n" + "Cozify the rooms by moving complementary items beside each other.\n\n" +
+      "Left/A/Scroll: Select previous move\n" +
+      "Right/D/Scroll: Select next move\n" +
+      "Space/LMB: Flip", width / 2, height / 3);
+
   }
   if (screen == END_SCREEN && !promptingClose) {
     noStroke();
@@ -86,6 +109,7 @@ void draw() {
     textFont(karlaTitle);
     fill(255);
     text("You Win", width / 2, height / 2);
+
   }
 
   if (promptingClose) {
