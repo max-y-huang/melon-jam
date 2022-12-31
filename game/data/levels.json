@@ -14,6 +14,21 @@
     ]
   },
   {
+    "boardSize": 3,
+    "tokens": [
+      { "id": "hotChocolate", "tag": 0, "x": 2, "z": 0 },
+      { "id": "chocolateBar", "tag": 0, "x": 0, "z": 2 },
+      { "id": "teddyBear", "tag": 1, "x": 1, "z": 1 },
+      { "id": "bed", "tag": 1, "x": 0, "z": 1 }
+    ],
+    "rules": [
+      { "axis": "Z_AXIS", "position": 0.5, "end1": 1, "end2": 2, "range": 1 },
+      { "axis": "X_AXIS", "position": 1.5, "end1": 0, "end2": 1, "range": 1 },
+      { "axis": "Z_AXIS", "position": 1.5, "end1": 2, "end2": 2, "range": 1 },
+      { "axis": "Z_AXIS", "position": 1, "end1": 0, "end2": 0, "range": 1.5 }
+    ]
+  },
+  {
     "boardSize": 5,
     "tokens": [
       { "id": "sofa", "tag": 0, "x": 0, "z": 0 },

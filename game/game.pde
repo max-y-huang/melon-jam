@@ -7,7 +7,7 @@ int TITLE_SCREEN = 0;
 int GAME_SCREEN = 1;
 int END_SCREEN = 2;
 
-float volume = 0.5;
+float volume = 0.25;
 
 
 SoundFile bgm;
