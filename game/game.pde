@@ -20,8 +20,9 @@ SoundFile startLevelSe;
 SoundFile clearLevelSe;
 SoundFile winGameSe;
 
-PFont karla;
-PFont karlaTitle;
+PFont ubuntu;
+PFont ubuntuTitle;
+PFont yesevaOneTitle;
 
 PImage titleScreenImg;
 
@@ -71,8 +72,9 @@ void setup() {
 
 
 void resizeAssets() {
-  karla = createFont("fonts/karlaRegular.ttf", em());
-  karlaTitle = createFont("fonts/karlaBold.ttf", 2.5 * em());
+  ubuntu = createFont("fonts/ubuntuRegular.ttf", em());
+  ubuntuTitle = createFont("fonts/ubuntuBold.ttf", 2.5 * em());
+  yesevaOneTitle = createFont("fonts/yesevaOne.ttf", 2.5 * em());
   if (stage != null) {
     stage.createComplementaryTokensImg();
   }
@@ -101,6 +103,8 @@ void draw() {
   }
   if (screen == TITLE_SCREEN) {
     noStroke();
+    fill(32, 32, 32, 64);
+    rect(0, 0, width, height);
     imageMode(CENTER);
     float imageAspectRatio = titleScreenImg.width * 1.0 / titleScreenImg.height;
     float screenAspectRatio = width * 1.0 / height;
@@ -113,10 +117,10 @@ void draw() {
     imageMode(CORNER);
     if (!promptingClose) {
       textAlign(CENTER, BOTTOM);
-      textFont(karlaTitle);
+      textFont(yesevaOneTitle);
       fill(255);
       text("Flipping Houses", width / 2, height / 3);
-      textFont(karla);
+      textFont(ubuntu);
       textAlign(CENTER, TOP);
       text("\nPress any key to play.\n\n" +
         "Cozify the rooms by moving complementary items beside each other.\n\n" +
@@ -132,7 +136,7 @@ void draw() {
     fill(32, 32, 32, 128);
     rect(0, 0, width, height);
     textAlign(CENTER, CENTER);
-    textFont(karlaTitle);
+    textFont(ubuntuTitle);
     fill(255);
     text("You Win", width / 2, height / 2);
 
@@ -143,7 +147,7 @@ void draw() {
     fill(32, 32, 32, 128);
     rect(0, 0, width, height);
     textAlign(CENTER, CENTER);
-    textFont(karla);
+    textFont(ubuntu);
     fill(255);
     text("Are you sure you want to close the game?\nPress 'Esc' again to confirm, or press any other key to cancel.", width / 2, height / 2);
   }
@@ -155,6 +159,7 @@ void draw() {
 void keyPressed() {
   if (promptingClose) {
     if (key == ESC) {
+      cursorSe.play();
       exit();
     }
     else {
@@ -164,7 +169,7 @@ void keyPressed() {
   else {
     if (key == ESC) {
       promptingClose = true;
-      startLevelSe.play();
+      cursorSe.play();
       key = 0;
     }
     else if (screen == GAME_SCREEN) {
@@ -179,6 +184,7 @@ void keyPressed() {
       }
     }
     else if (screen == TITLE_SCREEN) {
+      cursorSe.play();
       stage = new Stage(0);
       screen = GAME_SCREEN;
     }
@@ -214,6 +220,7 @@ void mouseReleased() {
       }
     }
     else if (screen == TITLE_SCREEN) {
+      cursorSe.play();
       stage = new Stage(0);
       screen = GAME_SCREEN;
     }

@@ -246,7 +246,7 @@ class Stage {
     popMatrix();
 
     textAlign(LEFT, TOP);
-    textFont(karla);
+    textFont(ubuntu);
     fill(255);
     text("Level " + (level + 1), 2 * em(), 2 * em() * 0.9);
 
