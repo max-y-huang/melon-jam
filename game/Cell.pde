@@ -8,7 +8,7 @@ class Cell {
 
   int x, z;
   color defaultColour = color(48, 48, 48);
-  color winColour = color(124, 163, 143);
+  color winColour = color(138, 181, 159);
   color oldColour;
   color newColour;
   float colourChangePercent = 0;
