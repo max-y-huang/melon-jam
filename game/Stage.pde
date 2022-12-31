@@ -15,6 +15,7 @@ class Stage {
   int size;
 
   PImage wall1Img, wall2Img;
+  PGraphics complementaryTokensImg;
 
   int animStep = 0;
   float animPercent = 0;
@@ -72,9 +73,47 @@ class Stage {
       cells.add(row);
     }
 
+    createComplementaryTokensImg();
+
     startLevelSe.play();
 
     return true;
+  }
+
+  void createComplementaryTokensImg() {
+    float tokenImgSize = 2 * em();
+    int gridWidth = ceil(tokenImgSize * 1.25);
+    int gridHeight = ceil(tokenImgSize * 1.5);
+
+    HashMap<Integer, ArrayList<Token>> tagMap = new HashMap<Integer, ArrayList<Token>>();
+    for (Token token : tokens) {
+      if (!tagMap.containsKey(token.tag)) {
+        tagMap.put(token.tag, new ArrayList<Token>());
+      }
+      tagMap.get(token.tag).add(token);
+    }
+
+    complementaryTokensImg = createGraphics(gridWidth * 2, gridHeight * tagMap.keySet().size());
+    complementaryTokensImg.beginDraw();
+    complementaryTokensImg.imageMode(CENTER);
+    for (Integer tag : tagMap.keySet()) {
+      ArrayList<Token> row = tagMap.get(tag);
+      for (int i = 0; i < row.size(); i++) {
+        PImage img = row.get(i).img;
+        float aspectRatio = img.width * 1.0 / img.height;
+        float w, h;
+        if (aspectRatio > 1) {
+          w = tokenImgSize;
+          h = tokenImgSize / aspectRatio;
+        }
+        else {
+          h = tokenImgSize;
+          w = tokenImgSize * aspectRatio;
+        }
+        complementaryTokensImg.image(img, i * gridWidth + gridWidth / 2.0, tag * gridHeight + gridHeight / 2.0, w, h);
+      }
+    }
+    complementaryTokensImg.endDraw();
   }
 
   boolean isWinningPosition() {
@@ -147,7 +186,7 @@ class Stage {
     tint(255);
   }
   
-  void draw() {
+  void drawLevel() {
 
     handleAnim();
 
@@ -180,6 +219,31 @@ class Stage {
     for (Token token : sortedTokens) {
       token.draw();
     }
+  }
+
+  void drawHUD() {
+
+    float carouselSize = em() * 2 / 3;
+    noStroke();
+    pushMatrix();
+    translate(width / 2 - carouselSize * (rules.size() - 1), height - 2 * carouselSize);
+    for (int i = 0; i < rules.size(); i++) {
+      if (i == currentRuleIndex) {
+        fill(0, 255, 255);
+      }
+      else {
+        fill(128, 128, 128);
+      }
+      ellipse(0 + carouselSize * 2 * i, 0, carouselSize, carouselSize);
+    }
+    popMatrix();
+
+    textAlign(LEFT, TOP);
+    textFont(karla);
+    fill(255);
+    text("Level " + (level + 1), em(), em() * 0.9);
+
+    image(complementaryTokensImg, width - complementaryTokensImg.width - em(), em() * 0.9);
   }
 
   void handleAnim() {

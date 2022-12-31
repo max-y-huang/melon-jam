@@ -1,5 +1,4 @@
 import java.util.*;
-import javax.swing.*; 
 import processing.sound.*;
 
 
@@ -65,7 +64,7 @@ void setup() {
 
 void draw() {
   if (screen != TITLE_SCREEN) {
-    stage.draw();
+    stage.drawLevel();
   }
 
   camera();
@@ -74,12 +73,7 @@ void draw() {
   noLights();
 
   if (screen != TITLE_SCREEN) {
-    drawSelectedRule();
-
-    textAlign(LEFT, TOP);
-    textFont(karla);
-    fill(255);
-    text("Level " + (stage.level + 1), em(), em() * 0.9);
+    stage.drawHUD();
   }
   if (screen == TITLE_SCREEN) {
     image(titleScreenImg, 0, 0, width, height);
@@ -105,27 +99,6 @@ void draw() {
   }
 
   hint(ENABLE_DEPTH_TEST);
-}
-
-void drawSelectedRule() {
-  float size = em() * 2 / 3;
-  noStroke();
-
-  pushMatrix();
-
-  translate(width / 2 - size * (stage.rules.size() - 1), height - 2 * size);
-
-  for (int i = 0; i < stage.rules.size(); i++) {
-    if (i == stage.currentRuleIndex) {
-      fill(0, 255, 255);
-    }
-    else {
-      fill(128, 128, 128);
-    }
-    ellipse(0 + size * 2 * i, 0, size, size);
-  }
-
-  popMatrix();
 }
 
 
