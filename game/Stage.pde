@@ -1,15 +1,7 @@
 
-class TokenRenderOrderComparator implements Comparator<Token> {  
-  public int compare(Token a, Token b) {
-    if (a.z > b.z) {
-      return -1;
-    }
-    return a.x > b.x ? -1 : 1;
-  }
-};
-
-
 class Stage {
+
+  Comparator<Token> TokenRenderOrderComparator;
 
   int level;
   int size;
@@ -75,6 +67,14 @@ class Stage {
     }
 
     createComplementaryTokensImg();
+
+    TokenRenderOrderComparator = new Comparator<Token>() {
+      public int compare(Token a, Token b) {
+        int rankA = a.x * size + a.z;
+        int rankB = b.x * size + b.z;
+        return rankB - rankA;
+      }
+    };
 
     startLevelSe.play();
 
@@ -216,11 +216,15 @@ class Stage {
     if (animStep == 0 && screen == GAME_SCREEN) {
       currentRule().drawOutline();
     }
-    
+
+    for (Token token : tokens) {
+      token.drawShadow();
+    }
+
     ArrayList<Token> sortedTokens = new ArrayList<>(tokens);
-    Collections.sort(sortedTokens, new TokenRenderOrderComparator());
+    Collections.sort(sortedTokens, TokenRenderOrderComparator);
     for (Token token : sortedTokens) {
-      token.draw();
+      token.drawToken();
     }
   }
 

@@ -1,6 +1,7 @@
 
 class Token {
 
+  String id;
   PImage img;
   int tag;
   int x, z;
@@ -9,11 +10,12 @@ class Token {
   float opacity = 1;
   float opacityVel = 0;
 
-  Token(String id, int _tag, int _x, int _z) {
-    img = loadImage("data/imgs/tokens/" + id + ".png");
+  Token(String _id, int _tag, int _x, int _z) {
+    id = _id;
     tag = _tag;
     x = _x;
     z = _z;
+    img = loadImage("data/imgs/tokens/" + id + ".png");
     switch (id) {
       case "fireplace":
         accentColour = color(255, 220, 110);
@@ -35,8 +37,8 @@ class Token {
         break;
     }
   }
-  
-  void draw() {
+
+  void drawShadow() {
     float w = 0.65;
     float h = img.height * w / img.width;
     float buffer = 0.125;
@@ -60,6 +62,15 @@ class Token {
     image(img, 0, 0, w, h); 
 
     popMatrix();
+  }
+  
+  void drawToken() {
+    float w = 0.65;
+    float h = img.height * w / img.width;
+    float buffer = 0.125;
+
+    hint(DISABLE_DEPTH_MASK);
+    updateOpacity();
 
     pushMatrix();
 
